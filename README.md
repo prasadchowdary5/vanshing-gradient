@@ -1,1 +1,32 @@
-# vanshing-gradient
+In machine learning, the vanishing gradient problem is encountered when training artificial neural networks with gradient-based learning methods and backpropagation. In such methods, during each iteration of training each of the neural network's weights receives an update proportional to the partial derivative of the error function with respect to the current weight.The problem is that in some cases, the gradient will be vanishingly small, effectively preventing the weight from changing its value. In the worst case, this may completely stop the neural network from further training. As one example of the problem cause, traditional activation functions such as the hyperbolic tangent function have gradients in the range (0,1], and backpropagation computes gradients by the chain rule. This has the effect of multiplying n of these small numbers to compute gradients of the early layers in an n-layer network, meaning that the gradient (error signal) decreases exponentially with n while the early layers train very slowly.
+
+Back-propagation allowed researchers to train supervised deep artificial neural networks from scratch, initially with little success. Hochreiter's diplom thesis of 1991 formally identified the reason for this failure in the "vanishing gradient problem", which not only affects many-layered feedforward networks, but also recurrent networks. The latter are trained by unfolding them into very deep feedforward networks, where a new layer is created for each time step of an input sequence processed by the network. (The combination of unfolding and backpropagation is termed backpropagation through time.)
+
+When activation functions are used whose derivatives can take on larger values, one risks encountering the related exploding gradient problem.
+Multi-level hierarchy
+To overcome this problem, several methods were proposed. One is Jürgen Schmidhuber's multi-level hierarchy of networks (1992) pre-trained one level at a time through unsupervised learning, fine-tuned through backpropagation. Here each level learns a compressed representation of the observations that is fed to the next level.
+
+Related approach
+Similar ideas have been used in feed-forward neural networks for unsupervised pre-training to structure a neural network, making it first learn generally useful feature detectors. Then the network is trained further by supervised backpropagation to classify labeled data. The deep belief network model by Hinton et al. (2006) involves learning the distribution of a high level representation using successive layers of binary or real-valued latent variables. It uses a restricted Boltzmann machine to model each new layer of higher level features. Each new layer guarantees an increase on the lower-bound of the log likelihood of the data, thus improving the model, if trained properly. Once sufficiently many layers have been learned the deep architecture may be used as a generative model by reproducing the data when sampling down the model (an "ancestral pass") from the top level feature activations. Hinton reports that his models are effective feature extractors over high-dimensional, structured data.
+
+Long short-term memory
+Main article: Long short-term memory
+Another technique particularly used for recurrent neural networks is the long short-term memory (LSTM) network of 1997 by Hochreiter & Schmidhuber. In 2009, deep multidimensional LSTM networks demonstrated the power of deep learning with many nonlinear layers, by winning three ICDAR 2009 competitions in connected handwriting recognition, without any prior knowledge about the three different languages to be learned.
+
+Faster hardware
+Hardware advances have meant that from 1991 to 2015, computer power (especially as delivered by GPUs) has increased around a million-fold, making standard backpropagation feasible for networks several layers deeper than when the vanishing gradient problem was recognized. Schmidhuber notes that this "is basically what is winning many of the image recognition competitions now", but that it "does not really overcome the problem in a fundamental way" since the original models tackling the vanishing gradient problem by Hinton and others were trained in a Xeon processor, not GPUs.
+
+Residual networks
+One of the newest and most effective ways to resolve the vanishing gradient problem is with residual neural networks, or ResNets (not to be confused with recurrent neural networks). ResNets refer to neural networks where skip connections or residual connections are part of the network architecture. These skip connections allow gradient information to pass through the layers, by creating "highways" of information, where the output of a previous layer/activation is added to the output of a deeper layer. This allows information from the earlier parts of the network to be passed to the deeper parts of the network, helping maintain signal propagation even in deeper networks. Skip connections are a critical component of what allowed successful training of deeper neural networks.
+
+ResNets yielded lower training error (and test error) than their shallower counterparts simply by reintroducing outputs from shallower layers in the network to compensate for the vanishing data. Note that ResNets are an ensemble of relatively shallow nets and do not resolve the vanishing gradient problem by preserving gradient flow throughout the entire depth of the network – rather, they avoid the problem simply by constructing ensembles of many short networks together.
+
+
+Growing Cosine Unit (GCU) activation. GCU is non-saturating and oscillatory and has been shown to speedup training on many benchmark datasets.
+Other activation functions
+Rectifiers such as ReLU suffer less from the vanishing gradient problem, because they only saturate in one direction. Non-monotonic, non-saturating and oscillatory activation functions can alleviate the vanishing gradient problem and reduce training time.An example of an oscillatory activation function that improves gradient flow and speeds up training is shown in the figure below.
+
+Other
+Behnke relied only on the sign of the gradient (Rprop) when training his Neural Abstraction Pyramid[18] to solve problems like image reconstruction and face localization.[citation needed]
+
+Neural networks can also be optimized by using a universal search algorithm on the space of neural network's weights, e.g., random guess or more systematically genetic algorithm. This approach is not based on gradient and avoids the vanishing gradient problem.
